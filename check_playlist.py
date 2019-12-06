@@ -7,8 +7,8 @@ import pickle
 from datetime import date
 
 if __name__ == '__main__':
-    parser = ap.ArgumentParser(description='Überprüfe für eine Playlist-URL, welche neuen Einträge seit dem letzen Check'
-                                           'hinzugekommen sind und erstelle eine Playlist der neuen Einträge')
+    parser = ap.ArgumentParser(description='Check for a playlist-URL or URI, which entries are new since the last check'
+                                           'those are added to a newly created playlist in your account')
     parser.add_argument('--URI', default=None, help='Playlist URI')
     parser.add_argument('--URL', default=None, help='Playlist URL for an public playlist')
     parser.add_argument('--create', default=True, help='Create a playlist from the new tracks')
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     uri = args.URI
     url = args.URL
     if uri is not None:
-        username = uri.split(':')[2]
+        username = 'spotify'
         playlist_id = uri.split(':')[-1]
         with open("latest.pickle", "wb") as pickle_out:
             pickle.dump([username, playlist_id], pickle_out)
@@ -47,9 +47,16 @@ if __name__ == '__main__':
     names = []
     uris = []
     for i, track in enumerate(tracks):
-        artists += [track['track']['artists'][0]['name']]
-        names += [track['track']['name']]
-        uris += [track['track']['uri']]
+        try:
+            art = [track['track']['artists'][0]['name']]
+            nam = [track['track']['name']]
+            ur = [track['track']['uri']]
+        except TypeError:
+            print('Fehlerhafter Track %d' % i)
+            continue
+        artists += art
+        names += nam
+        uris += ur
     new_songs = pd.DataFrame({'artist': artists, 'name': names, 'uri': uris, 'playlist_id': len(names) * [playlist_id]})
 
     # Get new tracks
