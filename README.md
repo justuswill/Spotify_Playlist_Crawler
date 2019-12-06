@@ -11,7 +11,8 @@ Spotipy
 
 Usage:
 
-'check_playlist.py --help
+'''
+check_playlist.py \-\-help
 >
 > Check for a playlist-URL or URI, which entries are new since the last check
 > those are added to a newly created playlist in your account
@@ -20,13 +21,18 @@ Usage:
 >   -h, --help       show this help message and exit
 >   --URI URI        Playlist URI
 >   --URL URL        Playlist URL for an public playlist
->   --create CREATE  Create a playlist from the new tracks'
+>   --create CREATE  Create a playlist from the new tracks
+'''
 
-'python check_playlist.py --URL 'https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=n5K8tOzXSwGg8yMcDBihUQ'
+'''
+python check_playlist.py --URL \'https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=n5K8tOzXSwGg8yMcDBihUQ\'
 > Username:<enter_your_username>
-> Playlist 'Electronic Rising Dec-06-2019' created'
+> Playlist \'Electronic Rising Dec-06-2019\' created\'
+'''
 
-'python check_playlist.py
-> Everything up to date'
+'''
+python check_playlist.py
+> Everything up to date
+'''
 
 
