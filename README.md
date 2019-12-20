@@ -33,6 +33,10 @@ check_playlist.py --help
 python check_playlist.py --URL 'https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=n5K8tOzXSwGg8yMcDBihUQ'
 > Playlist 'Electronic Rising Dec-06-2019' created'
 ```
+```
+python check_playlist.py
+> Everything up to date
+```
 Add a track to a collection with a specified name
 ```
 python check_playlist.py --URL 'https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=n5K8tOzXSwGg8yMcDBihUQ' --add electro
@@ -40,10 +44,6 @@ python check_playlist.py --URL 'https://open.spotify.com/playlist/37i9dQZF1DX8Al
 ```
 ```
 python check_playlist.py --col electro
-> Everything up to date
-```
-```
-python check_playlist.py
 > Everything up to date
 ```
 
