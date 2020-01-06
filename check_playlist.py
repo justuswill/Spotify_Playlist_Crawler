@@ -16,6 +16,7 @@ def main():
     parser.add_argument('--create', default=True, help='Create a playlist from the new tracks')
     parser.add_argument('--user', default=None, help='Use the account specified by this username')
     parser.add_argument('--add', default=None, help='add the uri/url to a collection with this name')
+    parser.add_argument('--INFO', default=False, help='Print out all collections')
     args = parser.parse_args()
 
     client_credentials_manager = SpotifyClientCredentials(client_id='f6a685b72991467fbb9b45ca9a39ffaf', client_secret='c0d27814ffc84b289ca0611f3dae6c25')
@@ -29,6 +30,14 @@ def main():
             pickle.dump([None, None, None, dict()], pickle_out)
     pickle_in = open("latest.pickle", "rb")
     [pl_username, playlist_id, username, cols] = pickle.load(pickle_in)
+
+    pl_name_dict = {pl_id: sp.user_playlist(user=None, playlist_id=pl_id, fields="name")["name"]
+                    for c in cols.values() for _, pl_id in c}
+
+    if args.INFO:
+        print("".join(["- %s:\n%s" % (name, "".join(["%s\n" % pl_name_dict[pl_id] for (_, pl_id) in collection]))
+                       for name, collection in cols.items()]))
+        return
 
     if args.col is not None:
         if args.col not in cols.keys():
@@ -56,8 +65,15 @@ def main():
     if collection_name is not None:
         if collection_name not in cols.keys():
             cols[collection_name] = []
-        cols[collection_name] += [(pl_username, playlist_id)]
-    #Save latest
+            # if not already there and working id
+        if (pl_username, playlist_id) not in cols[collection_name]:
+            try:
+                sp.user_playlist(user=None, playlist_id=playlist_id, fields="name")
+                cols[collection_name] += [(pl_username, playlist_id)]
+            except spotipy.client.SpotifyException:
+                print("Not a valid playlist_id: %s\nNothing added to collection" % playlist_id)
+
+    # Save latest
     with open("latest.pickle", "wb") as pickle_out:
         pickle.dump([pl_username, playlist_id, username, cols], pickle_out)
 
@@ -120,7 +136,7 @@ def main():
                 else:
                     print("Can't get token for", username)
             else:
-                print('Everything up to date - %s' % playlist_id)
+                print('Everything up to date - %s' % pl_name_dict[playlist_id])
 
 
 if __name__ == '__main__':
