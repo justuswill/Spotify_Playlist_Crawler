@@ -1,5 +1,5 @@
 # Spotify_Playlist_Crawler
-A Crawler that keeps track of an public playlists and can be invoked to look what songs changed since the last time.
+A Crawler that keeps track of public playlists and can be invoked to look for newly added songs since the last check.
 It than creates a new playlist with all new songs in your account.
 The first time you use it you have to sign in to your account by following a link and copying a URL. Details are in the terminal.
 If no URL/URI is giving it uses the last recently used one
